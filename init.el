@@ -24,7 +24,9 @@
 (electric-pair-mode 1)
 ;; 選択領域の色
 (show-paren-mode t)
-
+;; bkファイルは残さない
+(setq make-backup-files nil)
+;;分割画面サイズの変更
 (defun window-resizer ()
   "Control window size and position."
   (interactive)
@@ -57,9 +59,98 @@
                      (command (key-binding action)))
                  (when command
                    (call-interactively command)))
-               (message "Quit")
+	       (message "Quit")
                (throw 'end-flag t)))))))
-(global-set-key "\C-c\C-r" 'window-resizer)
+(global-set-key "\C-c\C-b" 'window-resizer)
+;;------------------------------------------------------------------------
+;;auto-install
+;;http://www.emacswiki.org/emacs/download/auto-install.el
+;;------------------------------------------------------------------------
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install/"))
+(require 'auto-install)
+(setq auto-install-directory "~/.emacs.d/auto-install/")
+(auto-install-update-emacswiki-package-name t)
+(auto-install-compatibility-setup)   
+
+; Emacs24
+;;(auto-install-from-url "http://repo.or.cz/w/emacs.git/blob_plain/HEAD:/lisp/emacs-lisp/package.el")
+
+;;== List1:パッケージを使うための初期設定
+(package-initialize)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+;;==
+;;;;;;;;;;;;;;
+;;helmの設定
+;;;;;;;;;;;;;;
+(require 'helm-config)
+(helm-mode 1)
+
+;;;;;;;;;;;;;;;;;;
+;;helm-mini設定
+;;;;;;;;;;;;;;;;;;
+(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
+
+(defvar helm-source-emacs-commands
+  (helm-build-sync-source "Emacs commands"
+    :candidates (lambda ()
+                  (let ((cmds))
+                    (mapatoms
+                     (lambda (elt) (when (commandp elt) (push elt cmds))))
+                    cmds))
+    :coerce #'intern-soft
+    :action #'command-execute)
+  "A simple helm source for Emacs commands.")
+
+(defvar helm-source-emacs-commands-history
+  (helm-build-sync-source "Emacs commands history"
+    :candidates (lambda ()
+                  (let ((cmds))
+                    (dolist (elem extended-command-history)
+                      (push (intern elem) cmds))
+                    cmds))
+    :coerce #'intern-soft
+    :action #'command-execute)
+  "Emacs commands history")
+
+(custom-set-variables
+ '(helm-mini-default-sources '(helm-source-buffers-list
+                               helm-source-recentf
+                               helm-source-files-in-current-dir
+                               helm-source-emacs-commands-history
+                               helm-source-emacs-commands
+                               )))
+(define-key global-map (kbd "M-m") 'helm-mini)
+(define-key global-map (kbd "M-y") 'helm-show-kill-ring)
+
+;;gragsの設定
+;; (require 'helm-gtags)          
+;; (add-hook 'go-mode-hook (lambda () (helm-gtags-mode)))
+;; (add-hook 'python-mode-hook (lambda () (helm-gtags-mode)))  
+;; (add-hook 'ruby-mode-hook (lambda () (helm-gtags-mode)))                         
+;; (setq helm-gtags-path-style 'root)                       
+;; (setq helm-gtags-auto-update t)
+;; (add-hook 'helm-gtags-mode-hook
+;;           '(lambda ()                                                                   
+;;              (local-set-key (kbd "M-g") 'helm-gtags-dwim)
+;;              (local-set-key (kbd "M-s") 'helm-gtags-show-stack)
+;;              (local-set-key (kbd "M-p") 'helm-gtags-previous-history)
+;;              (local-set-key (kbd "M-n") 'helm-gtags-next-history)))  
+;===============
+; package.elの設定
+;===============
+;; (require 'package)
+;; (require 'package nil t
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;; (add-to-list 'package-archives'("ELPA" . "https://tromey.com/elpa/"))
+;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (when (< emacs-major-version 24)
+;; (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
+;; ; Initialize
+;; (package-initialize)
+;; ; melpa.el
+;; (require 'melpa)
+
 
 ; ------------------------------------------------------------------------
 ; auto-install
@@ -90,23 +181,23 @@
 ;; ;;引数のディレクトリとそのサブディレクトリをload-pathに追加
 ;; (add-to-load-path "elisp" "conf" "public_repos")
 
-;; ;;addhook
+;;addhook
 ;; (add-hook 'python-mode-hook 'jedi:setup)
 ;; (setq jedi:complete-on-dot t)
-;; ;; ;===============
-;; ;; ; package.elの設定
-;; ;; ;===============
-;; ;; (require 'package)
-;; ;; (require 'package nil t
-;; ;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;; ;; (add-to-list 'package-archives'("ELPA" . "https://tromey.com/elpa/"))
-;; ;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; ;; (when (< emacs-major-version 24)
-;; ;; (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
-;; ;; ; Initialize
-;; ;; (package-initialize)
-;; ;; ; melpa.el
-;; ;; (require 'melpa)
+;; ;===============
+;; ; package.elの設定
+;; ;===============
+;; (require 'package)
+;; (require 'package nil t
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;; (add-to-list 'package-archives'("ELPA" . "https://tromey.com/elpa/"))
+;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (when (< emacs-major-version 24)
+;; (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
+;; ; Initialize
+;; (package-initialize)
+;; ; melpa.el
+;; (require 'melpa)
 
 ;; ;; ;=====================
 ;; ;; ; jedi (package.elの設定より下に書く)
@@ -125,3 +216,15 @@
 ;; ;; ;;;;; PYTHONPATH上のソースコードがauto-completeの補完対象になる ;;;;;
 ;; ;; (require 'jedi)
 ;; ;; (add-hook 'python-mode-hook '(lambda()(jedi:ac-setup)(setq jedi:complete-on-dot t)(local-set-key (kbd "M-TAB") 'jedi:complete)))
+;;(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+;;  '(package-selected-packages (quote (helm jedi auto-install auto-complete-nxml))))
+;; (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+
