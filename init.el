@@ -125,7 +125,7 @@
     (helm-source-buffers-list helm-source-recentf helm-source-files-in-current-dir helm-source-emacs-commands-history helm-source-emacs-commands)))
  '(package-selected-packages
    (quote
-    (auto-highlight-symbol highlight-symbol helm-ag helm-ag-r helm-anything eshell-autojump eshell-did-you-mean eshell-fixed-prompt eshell-fringe-status eshell-git-prompt eshell-prompt-extras eshell-up eshell-z bash-completion imenu-anywhere imenus package-utils imenu-list jedi helm auto-install auto-complete-nxml))))
+    (sws-mode swoop volatile-highlights auto-highlight-symbol highlight-symbol helm-ag helm-ag-r helm-anything eshell-autojump eshell-did-you-mean eshell-fixed-prompt eshell-fringe-status eshell-git-prompt eshell-prompt-extras eshell-up eshell-z bash-completion imenu-anywhere imenus package-utils imenu-list jedi helm auto-install auto-complete-nxml))))
 (define-key global-map (kbd "M-m") 'helm-mini)
 (define-key global-map (kbd "M-y") 'helm-show-kill-ring)
 ;;; *.~ とかのバックアップファイルを作らない
@@ -147,7 +147,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(hl-line ((t (:background "color-236")))))
 ;;shell-mode前方一致検索
 (add-hook 'shell-mode-hook
           '(lambda ()
@@ -157,3 +157,37 @@
                (define-key shell-mode-map (kbd "C-p") 'comint-previous-matching-input-from-input)
                (define-key shell-mode-map (kbd "C-n") 'comint-next-matching-input-from-input)
                )))
+;;現在行をハイライト
+(global-hl-line-mode t)
+
+;;選択範囲をハイライト
+(transient-mark-mode t)
+
+;; volatile-highlights
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
+
+;; (require 'highlight-symbol) ;; Cask や package-install からの場合はauto-loads cookie があるから不要
+(global-set-key [(control f3)] 'highlight-symbol-at-point)
+(global-set-key [f3] 'highlight-symbol-next)
+(global-set-key [(shift f3)] 'highlight-symbol-prev)
+(global-set-key [(meta f3)] 'highlight-symbol-query-replace)
+
+
+;;swoop設定
+(require 'swoop)
+(global-set-key (kbd "C-o")   'swoop)
+(global-set-key (kbd "C-M-o") 'swoop-multi)
+(global-set-key (kbd "M-o")   'swoop-pcre-regexp)
+(global-set-key (kbd "C-S-o") 'swoop-back-to-last-position)
+(global-set-key (kbd "H-6")   'swoop-migemo) ;; Option for Japanese match
+
+;; 検索の移行
+;; isearch     > press [C-o] > swoop
+;; evil-search > press [C-o] > swoop
+;; swoop       > press [C-o] > swoop-multi
+(define-key isearch-mode-map (kbd "C-o") 'swoop-from-search)
+(define-key evil-motion-state-map (kbd "C-o") 'swoop-from-evil-search)
+(define-key swoop-map (kbd "C-o") 'swoop-multi-from-swoop)
+;; "yes or no" の選択を "y or n" にする
+(fset 'yes-or-no-p 'y-or-n-p)

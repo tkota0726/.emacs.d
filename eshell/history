@@ -54,3 +54,9 @@ ls
 cd polls/
 l
 more urls.py 
+cd ..
+l
+python manage.py shell
+ls
+cd polls/
+l
