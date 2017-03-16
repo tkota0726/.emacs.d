@@ -62,10 +62,10 @@
 	       (message "Quit")
                (throw 'end-flag t)))))))
 (global-set-key "\C-c\C-b" 'window-resizer)
-;;------------------------------------------------------------------------
+;;-----------------------------------------------------------
 ;;auto-install
 ;;http://www.emacswiki.org/emacs/download/auto-install.el
-;;------------------------------------------------------------------------
+;;-----------------------------------------------------------
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install/"))
 (require 'auto-install)
 (setq auto-install-directory "~/.emacs.d/auto-install/")
@@ -115,7 +115,6 @@
     :coerce #'intern-soft
     :action #'command-execute)
   "Emacs commands history")
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -126,136 +125,35 @@
     (helm-source-buffers-list helm-source-recentf helm-source-files-in-current-dir helm-source-emacs-commands-history helm-source-emacs-commands)))
  '(package-selected-packages
    (quote
-    (package-utils imenu-list jedi helm auto-install auto-complete-nxml))))
+    (auto-highlight-symbol highlight-symbol helm-ag helm-ag-r helm-anything eshell-autojump eshell-did-you-mean eshell-fixed-prompt eshell-fringe-status eshell-git-prompt eshell-prompt-extras eshell-up eshell-z bash-completion imenu-anywhere imenus package-utils imenu-list jedi helm auto-install auto-complete-nxml))))
 (define-key global-map (kbd "M-m") 'helm-mini)
 (define-key global-map (kbd "M-y") 'helm-show-kill-ring)
+;;; *.~ とかのバックアップファイルを作らない
+(setq make-backup-files nil)
+;;; .#* とかのバックアップファイルを作らない
+(setq auto-save-default nil)
+;;helm補完機能
+(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
 
+;;jedi用設定
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;;gragsの設定
-;; (require 'helm-gtags)          
-;; (add-hook 'go-mode-hook (lambda () (helm-gtags-mode)))
-;; (add-hook 'python-mode-hook (lambda () (helm-gtags-mode)))  
-;; (add-hook 'ruby-mode-hook (lambda () (helm-gtags-mode)))                         
-;; (setq helm-gtags-path-style 'root)                       
-;; (setq helm-gtags-auto-update t)
-;; (add-hook 'helm-gtags-mode-hook
-;;           '(lambda ()                                                                   
-;;              (local-set-key (kbd "M-g") 'helm-gtags-dwim)
-;;              (local-set-key (kbd "M-s") 'helm-gtags-show-stack)
-;;              (local-set-key (kbd "M-p") 'helm-gtags-previous-history)
-;;              (local-set-key (kbd "M-n") 'helm-gtags-next-history)))  
-;===============
-; package.elの設定
-;===============
-;; (require 'package)
-;; (require 'package nil t
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;; (add-to-list 'package-archives'("ELPA" . "https://tromey.com/elpa/"))
-;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (when (< emacs-major-version 24)
-;; (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
-;; ; Initialize
-;; (package-initialize)
-;; ; melpa.el
-;; (require 'melpa)
-
-
-; ------------------------------------------------------------------------
-; auto-install
-; http://www.emacswiki.org/emacs/download/auto-install.el
-; ------------------------------------------------------------------------
-;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/auto-install/"))
-;; (require 'auto-install)
-;; (setq auto-install-directory "~/.emacs.d/auto-install/")
-;; (auto-install-update-emacswiki-package-name t)
-;; (auto-install-compatibility-setup)   
-
-;; ;; load-pathを追加する関数を定義
-;; (defun add-to-load-path (&rest paths)
-;;   (let (path)
-;;     (dolist (path paths paths)
-;;       (let ((default-derectory
-;; 	      (expand-file-name (concat user-emacs-directory path))))
-;; 	(add-to-list 'load-path default-directory)
-;; 	(if (fboudp 'normal-top-level-add-subdirs-to-load-path)
-;; 	    (normal-top-level-add-subdirs-to-load-path)))))))
-
-;; ;;パス追加用
-;; (add-to-list 'load-path "~/.emacs.d/elpa/emacs-deferred")
-;; (add-to-list 'load-path "~/.emacs.d/elpa/emacs-epc")
-;; (add-to-list 'load-path "~/.emacs.d/elpa/emacs-ctable")
-;; (add-to-list 'load-path "~/.emacs.d/elpa/emacs-jedi")
-
-;; ;;引数のディレクトリとそのサブディレクトリをload-pathに追加
-;; (add-to-load-path "elisp" "conf" "public_repos")
-
-;;addhook
-;; (add-hook 'python-mode-hook 'jedi:setup)
-;; (setq jedi:complete-on-dot t)
-;; ;===============
-;; ; package.elの設定
-;; ;===============
-;; (require 'package)
-;; (require 'package nil t
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;; (add-to-list 'package-archives'("ELPA" . "https://tromey.com/elpa/"))
-;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (when (< emacs-major-version 24)
-;; (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
-;; ; Initialize
-;; (package-initialize)
-;; ; melpa.el
-;; (require 'melpa)
-
-;; ;; ;=====================
-;; ;; ; jedi (package.elの設定より下に書く)
-;; ;; ;=====================
-;; ;; (require 'epc)
-;; ;; (require 'auto-complete-config)
-;; ;; (require 'auto-complete)
-;; ;; (global-auto-complete-mode t)
-;; ;; (require 'python)
-;; ;; ;; python の設定
-;; ;; (add-hook 'python-mode-hook '(lambda () (font-lock-mode 1)))
-;; ;; (autoload 'python-mode "python-mode"
-;; ;; "Major mode for editing Python programs" t)
-;; ;; (setq auto-mode-alist
-;; ;; (cons (cons "\\.py$" 'python-mode) auto-mode-alist))
-;; ;; ;;;;; PYTHONPATH上のソースコードがauto-completeの補完対象になる ;;;;;
-;; ;; (require 'jedi)
-;; ;; (add-hook 'python-mode-hook '(lambda()(jedi:ac-setup)(setq jedi:complete-on-dot t)(local-set-key (kbd "M-TAB") 'jedi:complete)))
-;;(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
-;;  '(package-selected-packages (quote (helm jedi auto-install auto-complete-nxml))))
-;; (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
-
+;;emacs-bash補完機能
+(require 'bash-completion)
+(bash-completion-setup)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+;;shell-mode前方一致検索
+(add-hook 'shell-mode-hook
+          '(lambda ()
+             (progn
+               ;; (define-key shell-mode-map (kbd "C-p") 'comint-previous-input)
+               ;; (define-key shell-mode-map (kbd "C-n") 'comint-next-input)
+               (define-key shell-mode-map (kbd "C-p") 'comint-previous-matching-input-from-input)
+               (define-key shell-mode-map (kbd "C-n") 'comint-next-matching-input-from-input)
+               )))

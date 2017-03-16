@@ -1,0 +1,56 @@
+ls 
+sh env36.sh 
+more env36.sh 
+l
+l
+ls 
+sh env36.sh 
+exit
+l
+l
+ls
+cd ..
+l
+ls
+python manage.py runserver
+ls
+rm -rf hello/
+python manage.py runserver
+ls
+rm #manage.py#
+rm #manage.py#
+ls 
+python manage.py runserver
+exit
+python manage.py runserver
+emacs -nw mysite/settings.pyc
+emacs -nw mysite/settings.py
+exit
+cd ..
+ls
+python manage.py runserver
+exit
+exit
+ls
+cd ..
+ls
+python manage.py migrate blog
+python manage.py makemigrations blog
+python manage.py migrate blog
+python manage.py makemigrations blog
+python manage.py migrate blog
+python manage.py makemigrations blog
+python manage.py migrate blog
+ls 
+exit
+pwd
+ls
+tree
+cd ..
+ls
+mv urls.py ./polls/
+tree
+ls 
+cd polls/
+l
+more urls.py 
