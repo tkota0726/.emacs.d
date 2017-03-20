@@ -8,7 +8,16 @@
 ~/dev_kota/dev_kota/kota_dev/mysite/polls
 /Users/kota/dev_kota/dev_kota/kota_dev/mysite
 /Users/kota/dev_kota/dev_kota/kota_dev/mysite/polls
+<<<<<<< HEAD
 /Users/kota/dev_kota/dev_kota/kota_dev/mysite/polls/templates/polls
 /Users/kota/dev_kota/dev_kota/kota_dev/slackbot
 ~/dev_kota/dev_kota/.git
 ~
+=======
+~/.emacs.d
+/Users/kota/Desktop
+~/workspace/scraping
+/Users/kota
+/Users/kota/.emacs.d
+~/workspace/scraping
+>>>>>>> 869ea2be449637dfee729bca41d786819e7c6d50
