@@ -1,10 +1,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; init.el
 ;; Emacs設定用ファイル
-;; timestamp:
+;; timestamp:2017-03-19
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ~/emacs.d/elisp　ディレクトリをロードパスに追加する
 (add-to-list 'load-path "~/.emacs.d/elisp")
+
 ;; "C-t"でウィンドウを切り替える。
 (define-key global-map (kbd "C-t") 'other-window)
 ;; 削除をC-hに変更
@@ -31,7 +32,7 @@
   "Control window size and position."
   (interactive)
   (let ((window-obj (selected-window))
-        (current-width (window-width))
+       (current-width (window-width))
         (current-height (window-height))
         (dx (if (= (nth 0 (window-edges)) 0) 1
               -1))
@@ -71,9 +72,7 @@
 (setq auto-install-directory "~/.emacs.d/auto-install/")
 (auto-install-update-emacswiki-package-name t)
 (auto-install-compatibility-setup)   
-
-; Emacs24
-;;(auto-install-from-url "http://repo.or.cz/w/emacs.git/blob_plain/HEAD:/lisp/emacs-lisp/package.el")
+(eval-after-load 'auto-complete '(global-auto-complete-mode 1))
 
 ;;== List1:パッケージを使うための初期設定
 (package-initialize)
@@ -81,7 +80,27 @@
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa" . "http://melpa.org/packages/")
         ("org" . "http://orgmode.org/elpa/")))
-;;==
+;;
+;;swoop設定
+(require 'swoop)
+(global-set-key (kbd "C-o")   'swoop)
+(global-set-key (kbd "C-M-o") 'swoop-multi)
+(global-set-key (kbd "M-o")   'swoop-pcre-regexp)
+(global-set-key (kbd "C-S-o") 'swoop-back-to-last-position)
+(global-set-key (kbd "H-6")   'swoop-migemo) ;; Option for Japanese match
+
+;;検索の移行
+;;isearch     > press [C-o] > swoop
+;;evil-search > press [C-o] > swoop
+;;swoop       > press [C-o] > swoop-multi
+(define-key isearch-mode-map (kbd "C-o") 'swoop-from-search)
+(define-key swoop-map (kbd "C-o") 'swoop-multi-from-swoop)
+;; "yes or no" の選択を "y or n" にする
+(fset 'yes-or-no-p 'y-or-n-p)
+;;nertreeキーバインド
+(global-set-key [f8] 'neotree-toggle)
+;; .#* とかのバックアップファイルを作らない
+(setq auto-save-default nil)
 ;;;;;;;;;;;;;;
 ;;helmの設定
 ;;;;;;;;;;;;;;
@@ -91,103 +110,50 @@
 ;;;;;;;;;;;;;;;;;;
 ;;helm-mini設定
 ;;;;;;;;;;;;;;;;;;
-(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
-(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
-
-(defvar helm-source-emacs-commands
-  (helm-build-sync-source "Emacs commands"
-    :candidates (lambda ()
-                  (let ((cmds))
-                    (mapatoms
-                     (lambda (elt) (when (commandp elt) (push elt cmds))))
-                    cmds))
-    :coerce #'intern-soft
-    :action #'command-execute)
-  "A simple helm source for Emacs commands.")
-
-(defvar helm-source-emacs-commands-history
-  (helm-build-sync-source "Emacs commands history"
-    :candidates (lambda ()
-                  (let ((cmds))
-                    (dolist (elem extended-command-history)
-                      (push (intern elem) cmds))
-                    cmds))
-    :coerce #'intern-soft
-    :action #'command-execute)
-  "Emacs commands history")
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(helm-mini-default-sources
-   (quote
-    (helm-source-buffers-list helm-source-recentf helm-source-files-in-current-dir helm-source-emacs-commands-history helm-source-emacs-commands)))
- '(package-selected-packages
-   (quote
-    (sws-mode swoop volatile-highlights auto-highlight-symbol highlight-symbol helm-ag helm-ag-r helm-anything eshell-autojump eshell-did-you-mean eshell-fixed-prompt eshell-fringe-status eshell-git-prompt eshell-prompt-extras eshell-up eshell-z bash-completion imenu-anywhere imenus package-utils imenu-list jedi helm auto-install auto-complete-nxml))))
 (define-key global-map (kbd "M-m") 'helm-mini)
 (define-key global-map (kbd "M-y") 'helm-show-kill-ring)
 ;;; *.~ とかのバックアップファイルを作らない
 (setq make-backup-files nil)
-;;; .#* とかのバックアップファイルを作らない
-(setq auto-save-default nil)
+
 ;;helm補完機能
 (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
 
 ;;jedi用設定
-(add-hook 'python-mode-hook 'jedi:setup)
+(require 'jedi-core)
 (setq jedi:complete-on-dot t)
-
+(setq jedi:use-shortcuts t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(add-to-list 'company-backends 'company-jedi) ; backendに追加
 ;;emacs-bash補完機能
 (require 'bash-completion)
 (bash-completion-setup)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(hl-line ((t (:background "color-236")))))
-;;shell-mode前方一致検索
-(add-hook 'shell-mode-hook
-          '(lambda ()
-             (progn
-               ;; (define-key shell-mode-map (kbd "C-p") 'comint-previous-input)
-               ;; (define-key shell-mode-map (kbd "C-n") 'comint-next-input)
-               (define-key shell-mode-map (kbd "C-p") 'comint-previous-matching-input-from-input)
-               (define-key shell-mode-map (kbd "C-n") 'comint-next-matching-input-from-input)
-               )))
+
 ;;現在行をハイライト
-(global-hl-line-mode t)
+;;(global-hl-line-mode t)
 
 ;;選択範囲をハイライト
-(transient-mark-mode t)
+;;(transient-mark-mode t)
 
 ;; volatile-highlights
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
 
-;; (require 'highlight-symbol) ;; Cask や package-install からの場合はauto-loads cookie があるから不要
-(global-set-key [(control f3)] 'highlight-symbol-at-point)
-(global-set-key [f3] 'highlight-symbol-next)
-(global-set-key [(shift f3)] 'highlight-symbol-prev)
-(global-set-key [(meta f3)] 'highlight-symbol-query-replace)
-
-
-;;swoop設定
-(require 'swoop)
-(global-set-key (kbd "C-o")   'swoop)
-(global-set-key (kbd "C-M-o") 'swoop-multi)
-(global-set-key (kbd "M-o")   'swoop-pcre-regexp)
-(global-set-key (kbd "C-S-o") 'swoop-back-to-last-position)
-(global-set-key (kbd "H-6")   'swoop-migemo) ;; Option for Japanese match
-
-;; 検索の移行
-;; isearch     > press [C-o] > swoop
-;; evil-search > press [C-o] > swoop
-;; swoop       > press [C-o] > swoop-multi
-(define-key isearch-mode-map (kbd "C-o") 'swoop-from-search)
-(define-key evil-motion-state-map (kbd "C-o") 'swoop-from-evil-search)
-(define-key swoop-map (kbd "C-o") 'swoop-multi-from-swoop)
-;; "yes or no" の選択を "y or n" にする
-(fset 'yes-or-no-p 'y-or-n-p)
+;;undo-treesetting
+(global-undo-tree-mode)
+(require 'undo-tree)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (helm-migemo helm-mode-manager volatile-highlights undo-tree sws-mode swoop package-utils neotree jedi-direx isearch-symbol-at-point isearch-prop isearch-dabbrev isearch+ imenus imenu-list imenu-anywhere highlight-symbol help-mode+ help-fns+ help+ helm-helm-commands helm-anything helm-ag-r helm-ag eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-fixed-prompt eshell-did-you-mean eshell-autojump cl-lib-highlight cl-generic cl-format bash-completion auto-install auto-highlight-symbol auto-complete-nxml))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+;;neotree設定
+(global-set-key [f8] 'neotree-toggle)

@@ -60,3 +60,40 @@ python manage.py shell
 ls
 cd polls/
 l
+ls
+l
+l
+ls
+ls -la 
+exit
+open 備忘録.html
+cd 
+cd ~/.emacs.d/
+e .python-environments/
+rm -rf .python-environments/
+pip install jedi
+pip install epc
+pip install pandas
+python great.py 
+python great.py 
+NameError: name 'name' is not defined
+NameError: name 'name' is not defined
+python great.py 
+python great.py 
+python great.py  kota
+python great.py kota
+python great.py kota
+exit
+python great.py 
+python great.py 
+python great.py kota
+git 
+git status 
+git diff
+git add -A
+git commit -m "added great.py"
+git branch 
+git push origin master
+du -h 
+which emacs
+mdfind emacs
