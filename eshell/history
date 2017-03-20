@@ -60,3 +60,34 @@ python manage.py shell
 ls
 cd polls/
 l
+cd ..
+python manage.py shell
+python manage.py createsuperuser
+python manage.py migrate
+ls 
+rm urls.py 
+python manage.py createsuperuser
+ls 
+cd polls/
+ls 
+ls
+cd ..
+l
+cd polls/
+l
+mkdir templates
+mkdir templates/polls
+mv ./index.html  templates/polls/
+ls 
+cd templates/polls/
+l
+pwd
+ls
+l
+l
+ls 
+cat index.html 
+python run.py 
+l
+ls 
+source .bashrc
