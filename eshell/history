@@ -1,133 +1,128 @@
+sudo pip install --upgrade google-api-python-client
+sudo pip install pyopenssl
+which oauth
 ls 
-sh env36.sh 
-more env36.sh 
-l
-l
-ls 
-sh env36.sh 
-exit
-l
-l
-ls
-cd ..
-l
-ls
-python manage.py runserver
-ls
-rm -rf hello/
-python manage.py runserver
-ls
-rm #manage.py#
-rm #manage.py#
-ls 
-python manage.py runserver
-exit
-python manage.py runserver
-emacs -nw mysite/settings.pyc
-emacs -nw mysite/settings.py
-exit
-cd ..
-ls
-python manage.py runserver
-exit
-exit
-ls
-cd ..
-ls
-python manage.py migrate blog
-python manage.py makemigrations blog
-python manage.py migrate blog
-python manage.py makemigrations blog
-python manage.py migrate blog
-python manage.py makemigrations blog
-python manage.py migrate blog
-ls 
-exit
-pwd
-ls
-tree
-cd ..
-ls
-mv urls.py ./polls/
-tree
-ls 
-cd polls/
-l
-more urls.py 
-cd ..
-l
-python manage.py shell
-ls
-cd polls/
-l
-<<<<<<< HEAD
-cd ..
-python manage.py shell
-python manage.py createsuperuser
-python manage.py migrate
-ls 
-rm urls.py 
-python manage.py createsuperuser
-ls 
-cd polls/
-ls 
-ls
-cd ..
-l
-cd polls/
-l
-mkdir templates
-mkdir templates/polls
-mv ./index.html  templates/polls/
-ls 
-cd templates/polls/
-l
-pwd
-ls
-l
-l
-ls 
-cat index.html 
-python run.py 
-l
-ls 
-source .bashrc
-=======
-ls
-l
-l
-ls
-ls -la 
-exit
-open 備忘録.html
 cd 
-cd ~/.emacs.d/
-e .python-environments/
-rm -rf .python-environments/
-pip install jedi
-pip install epc
-pip install pandas
-python great.py 
-python great.py 
-NameError: name 'name' is not defined
-NameError: name 'name' is not defined
-python great.py 
-python great.py 
-python great.py  kota
-python great.py kota
-python great.py kota
-exit
-python great.py 
-python great.py 
-python great.py kota
-git 
-git status 
-git diff
-git add -A
-git commit -m "added great.py"
-git branch 
-git push origin master
-du -h 
-which emacs
-mdfind emacs
->>>>>>> 869ea2be449637dfee729bca41d786819e7c6d50
+ls 
+ls 
+cd env36/
+ls 
+ls 
+cd bin/
+l
+cd ..
+ls
+cd include/
+l
+cd ..
+cd lib/
+ls 
+cd python3.6/
+ls 
+cd site-packages/
+l
+cd ..
+ls 
+cd ..
+ls 
+cd ..
+l 
+cd share/
+ls 
+cd man/
+ls 
+cd ,
+cd man1/
+ls 
+cd ..
+cd ..
+cd .
+cd ..
+ls 
+cd lib/
+ls 
+which *.pyc
+mdfind *.pyc
+ls 
+cd ..
+ls 
+cd ..
+l
+cd env36/
+ls 
+cd lib/
+ls 
+cd python3.6/
+ls 
+cd site-packages/
+l
+l | oauth
+l |grep  oauth
+cd  oauth2client-4.0.0.dist-info/
+s 
+ls 
+open .
+ls 
+mkdir garapon
+mkdir garapon/downloads/
+cd garapon/
+ls 
+more cms_list.csv 
+ls
+cat cms_list.csv 
+cat cms_list.csv ls 
+cd ..
+ls 
+cd garapon/
+ls 
+cd ..
+ls 
+ls 
+cd ..
+ls 
+cd video_catch_old/
+ls 
+cd ..
+ssh TVIMAC
+ls 
+cd video_catch_old/
+cd ..
+cd video_catch
+ls 
+ccd ..
+ls 
+ls 
+cd ..
+ls 
+cd video_catch_old/
+ls 
+cd garapon
+ls 
+open .
+cd ..
+ls 
+cd ..
+cd video_catch/
+ls 
+open .
+python garapon_catch.py 
+open .
+python garapon_catch.py 
+python garapon_catch.py 
+python 
+ssh kotaair
+ssh kotaair
+which bash
+pwd
+pwd
+which python
+python
+ls 
+source ~/env36/bin/activate.fish
+ls 
+ls 
+ls 
+env36
+python
+env36
+source ~/env36/bin/activate.fish
