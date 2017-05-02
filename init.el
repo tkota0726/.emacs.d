@@ -3,6 +3,8 @@
 ;; Emacs設定用ファイル
 ;; timestamp:2017-03-19
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defvar tagname "")
 ;; ~/emacs.d/elisp　ディレクトリをロードパスに追加する
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
@@ -16,16 +18,16 @@
 (size-indication-mode t)
 ;; バッテリー残量を表示
 (display-battery-mode t)
-;;行番号表示
+;; 行番号表示
 (require 'linum)
 (global-linum-mode 1)
-;;閉じカッコの自動挿入
+;; 閉じカッコの自動挿入
 (electric-pair-mode 1)
 ;; 選択領域の色
 (show-paren-mode t)
 ;; bkファイルは残さない
 (setq make-backup-files nil)
-;;分割画面サイズの変更
+;; 分割画面サイズの変更
 (defun window-resizer ()
   "Control window size and position."
   (interactive)
@@ -60,6 +62,7 @@
                    (call-interactively command)))
 	       (message "Quit")
                (throw 'end-flag t)))))))
+;;(bind-key "C-c C-b" 'window-resizer)
 (global-set-key "\C-c\C-b" 'window-resizer)
 
 ;;auto-install
@@ -73,13 +76,14 @@
 (auto-install-compatibility-setup)   
 (eval-after-load 'auto-complete '(global-auto-complete-mode 1))
 
-;;== List1:パッケージを使うための初期設定
+;; ;;== List1:パッケージを使うための初期設定
 (package-initialize)
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa" . "http://melpa.org/packages/")
         ("org" . "http://orgmode.org/elpa/")))
-;;
+;; ;;=======================================
+
 ;;swoop設定
 (require 'swoop)
 ;;; C-u C-sでswoop-migemo
@@ -90,12 +94,10 @@
 (global-set-key (kbd "C-s") 'isearch-forward-or-swoop-migemo)
 ;;; isearchからC-oでswoopへ移行
 (define-key isearch-mode-map (kbd "C-o") 'swoop-from-isearch)
-(global-set-key (kbd "M-o")   'swoop-pcre-regexp)
+(global-set-key (kbd "M-o")   'helm-multi-swoop-all)
 (global-set-key (kbd "C-S-o") 'swoop-back-to-last-position)
 ;;; swoop対象バッファのフォントを小さくする
 (setq swoop-font-size: 0.5)
-
-
 ;; "yes or no" の選択を "y or n" にする
 (fset 'yes-or-no-p 'y-or-n-p)
 ;;nertreeキーバインド
@@ -120,6 +122,7 @@
 (define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
 
 ;;jedi用設定
+(add-hook 'python-mode-hook 'jedi:setup)
 (require 'python-mode)
 (require 'epc)
 (require 'jedi-core)
@@ -148,7 +151,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (flymake-php flymake-phpcs helm-phpunit helm-proc helm-project-persist helm-projectile helm-prosjekt helm-pt helm-purpose helm-pydoc helm-qiita helm-rage helm-rails helm-rb php+-mode quickrun flymake-python-pyflakes python python-test python-mode helm-swoop auto-package-update company-jedi format-sql jedi jedi-core migemo helm-migemo helm-mode-manager volatile-highlights undo-tree sws-mode swoop package-utils neotree jedi-direx isearch-symbol-at-point isearch-prop isearch-dabbrev isearch+ imenus imenu-list imenu-anywhere highlight-symbol help-mode+ help-fns+ help+ helm-helm-commands helm-anything helm-ag-r helm-ag eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-fixed-prompt eshell-did-you-mean eshell-autojump cl-lib-highlight cl-generic cl-format bash-completion auto-install auto-highlight-symbol auto-complete-nxml))))
+    (color-theme color-theme-approximate color-theme-buffer-local color-theme-modern color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow color-theme-solarized color-theme-x multi-eshell multi-line multi-project multi-term multi-web-mode switch-window bind-key ac-html ac-html-angular ac-html-bootstrap ac-html-csswatcher html-check-frag html-script-src html-to-hiccup html-to-markdown html5-schema htmlize web-mode web-mode-edit-element flymake-php flymake-phpcs helm-phpunit helm-proc helm-project-persist helm-projectile helm-prosjekt helm-pt helm-purpose helm-pydoc helm-qiita helm-rage helm-rails helm-rb php+-mode quickrun flymake-python-pyflakes python python-test python-mode helm-swoop auto-package-update company-jedi format-sql jedi jedi-core migemo helm-migemo helm-mode-manager volatile-highlights undo-tree sws-mode swoop package-utils neotree jedi-direx isearch-symbol-at-point isearch-prop isearch-dabbrev isearch+ imenus imenu-list imenu-anywhere highlight-symbol help-mode+ help-fns+ help+ helm-helm-commands helm-anything helm-ag-r helm-ag eshell-z eshell-up eshell-prompt-extras eshell-git-prompt eshell-fringe-status eshell-fixed-prompt eshell-did-you-mean eshell-autojump cl-lib-highlight cl-generic cl-format bash-completion auto-install auto-highlight-symbol auto-complete-nxml))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -169,7 +172,7 @@
 (global-set-key (kbd "C-<C-down>")  'windmove-down)
 (global-set-key (kbd "C-<C-up>")    'windmove-up)
 (global-set-key (kbd "C-<C-right>") 'windmove-right)
-
+(define-key global-map (kbd "C-t") 'other-window)
 ;;pyflakesの設定
 (add-hook 'find-file-hook 'flymake-find-file-hook)
 (when (load "flymake" t)
@@ -200,6 +203,8 @@
   )
 
 (global-set-key (kbd "C-\\") 'my-quickrun-output-fix)
+(global-set-key (kbd "C-<f5>") 'quickrun-with-arg)
+(global-set-key (kbd "M-<f5>") 'quickrun-compile-only)
 ;; タイトルバーにファイルのフルパス表示
 (setq frame-title-format
       (if (buffer-file-name)
@@ -210,3 +215,84 @@
 (load-file (expand-file-name "~/.emacs.d/shellenv.el"))
 (dolist (path (reverse (split-string (getenv "PATH") ":")))
   (add-to-list 'exec-path path))
+
+;;init.elを開く
+(global-set-key
+ (kbd "C-c C-e")
+  (lambda () (interactive)
+   (switch-to-buffer (find-file-noselect "~/.emacs.d/init.el"))))
+;;switch-window用
+(setq switch-window-shortcut-style 'qwerty)
+(global-set-key (kbd "C-x o") 'switch-window)
+;;文字化け防止
+(set-language-environment 'Japanese)
+(set-terminal-coding-system 'utf-8)
+(setq file-name-coding-system 'utf-8)
+(set-clipboard-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8)
+(setq coding-system-for-read 'mule-utf-8-unix)
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-buffer-file-coding-system 'utf-8-unix)
+;########################################
+; web-mode setting
+;########################################
+;; (require 'web-mode)
+
+;; (add-to-list 'auto-mode-alist '("\\.jsp$"       . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.html?$"     . web-mode))
+
+;; (defun web-mode-hook ()
+;;   "Hooks for Web mode."
+;;   ;; indent
+;;   (setq web-mode-html-offset   2)
+;;   (setq web-mode-style-padding 2)
+;;   (setq web-mode-css-offset    2)
+;;   (setq web-mode-script-offset 2)
+;;   (setq web-mode-java-offset   2)
+;;   (setq web-mode-asp-offset    2)
+
+;;   (local-set-key (kbd "C-m") 'newline-and-indent)
+;; )  
+;;ソースの先頭に
+(defun my-short-buffer-file-coding-system (&optional default-coding)
+  (let ((coding-str (format "%S" buffer-file-coding-system)))
+    (cond ((string-match "shift-jis" coding-str) 'shift_jis)
+          ((string-match "euc-jp" coding-str) 'euc-jp)
+          ((string-match "utf-8" coding-str) 'utf-8)
+          (t (or default-coding 'utf-8)))))
+
+(defun my-insert-file-local-coding ()
+  "ファイルの先頭に `coding:' を自動挿入する"
+  (interactive)
+  (save-excursion
+    (goto-line 2) (end-of-line) ; ２行目の行末の移動
+    (let ((limit (point)))
+      (goto-char (point-min))
+      (unless (search-forward "coding:" limit t) ; 2行目以内に `coding:'がない
+        (goto-char (point-min))
+        ;; #!で始まる場合２行目に記述
+        (when (and (< (+ 2 (point-min)) (point-max))
+                   (string= (buffer-substring (point-min) (+ 2 (point-min))) "#!"))
+          (unless (search-forward "\n" nil t) ; `#!'で始まり末尾に改行が無い場合
+            (insert "\n")))                   ; 改行を挿入
+        (let ((st (point)))
+          (insert (format "-*- coding: %S -*-\n" (my-short-buffer-file-coding-system)))
+          (comment-region st (point)))))))
+(add-hook 'python-mode-hook 'my-insert-file-local-coding)
+
+;;multi-term用設定
+;; (require 'multi-term)
+;; (global-set-key (kbd "C-<f4>") 'multi-term)
+
+(defun remove-dos-eol ()
+  "Do not show ^M in files containing mixed UNIX and DOS line endings."
+  (interactive)
+  (setq buffer-display-table (make-display-table))
+  (aset buffer-display-table ?\^M []))
+;; ------------------------------------------------------------------------
+;; @ color-theme
+(require 'color-theme)
+(color-theme-initialize)
+(load-theme 'calm-forest t)

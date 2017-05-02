@@ -1,128 +1,128 @@
-sudo pip install --upgrade google-api-python-client
-sudo pip install pyopenssl
-which oauth
+mysql -u root -p 
+mysql -u root -p kota
+mysql -u root
+grep password /var/log/mysqld.log
+mysql -p
+mysql -p
+mysql -p
+mysql -p
+mysql -u scraper
+mysql -uscraper
+mysql
+mysql -uroot
 ls 
+pws
+ps
+python list3.4_save_mysql.py 
+which python
+python
+env36
+source ~/env36/bin/activate
+ls 
+ls 
+ls 
+open .
+chmod 600 kota-test.pem 
+ls 
+l
+l
+ls 
+l
+ls -la 
+cd 
+cd dev_private/python-scraping/
+cd ..
+cd python-crawling/
+ls 
+ls 
+git push origin master
+git pull origin master
+cd 
+cd dev_kota/
+ls 
+ls 
+cd dev_kota/
+ls 
+ls 
+cd kota_dev/
+ls 
+ls 
+cd temp/
+ls 
+cd ..
+ls 
+ls cd workspace/
+cd workspace/
+ls 
+ls 
+cd scraping_dev/
+ls 
+cd ..
+ls 
+ls 
+cd ..
+ls 
+git clone git@github.com:tkotaCellid/python-crawling.git
 cd 
 ls 
+cd .ssh/
 ls 
-cd env36/
-ls 
-ls 
-cd bin/
 l
-cd ..
-ls
-cd include/
-l
-cd ..
-cd lib/
-ls 
-cd python3.6/
-ls 
-cd site-packages/
-l
-cd ..
+ls -la
+chmod 600 cellid_github_key.pub 
 ls 
 cd ..
+sl 
 ls 
+cd 
+cd workspace/python-crawling/
+ls 
+git push origin master
+cd 
+more ~/.ssh/config 
+;s 
+cd .subversion/
 cd ..
-l 
-cd share/
 ls 
-cd man/
+cd .ssh/con
+cd .ssh/
 ls 
-cd ,
-cd man1/
+more cellid_github_key.pub
+kdir -p /date/db
 ls 
-cd ..
-cd ..
+ls 
+pip install pymongo
+python 
+ls 
+open static/
+ls 
+python
+pyenv local 3.5.0
+python
+python
+ls 
+cd eroimages/
+ls 
 cd .
 cd ..
 ls 
-cd lib/
 ls 
-which *.pyc
-mdfind *.pyc
-ls 
-cd ..
+cd eroimages/
+open 
+open .
 ls 
 cd ..
+ls 
 l
-cd env36/
-ls 
-cd lib/
-ls 
-cd python3.6/
-ls 
-cd site-packages/
 l
-l | oauth
-l |grep  oauth
-cd  oauth2client-4.0.0.dist-info/
-s 
+cd..
+ls -la 
+e .gitignore
+;;s 
 ls 
-open .
+git add -A
 ls 
-mkdir garapon
-mkdir garapon/downloads/
-cd garapon/
-ls 
-more cms_list.csv 
-ls
-cat cms_list.csv 
-cat cms_list.csv ls 
-cd ..
-ls 
-cd garapon/
-ls 
-cd ..
-ls 
-ls 
-cd ..
-ls 
-cd video_catch_old/
-ls 
-cd ..
-ssh TVIMAC
-ls 
-cd video_catch_old/
-cd ..
-cd video_catch
-ls 
-ccd ..
-ls 
-ls 
-cd ..
-ls 
-cd video_catch_old/
-ls 
-cd garapon
-ls 
-open .
-cd ..
-ls 
-cd ..
-cd video_catch/
-ls 
-open .
-python garapon_catch.py 
-open .
-python garapon_catch.py 
-python garapon_catch.py 
 python 
-ssh kotaair
-ssh kotaair
-which bash
-pwd
-pwd
-which python
-python
+pyenv local 3.6.0
+python 
 ls 
-source ~/env36/bin/activate.fish
-ls 
-ls 
-ls 
-env36
-python
-env36
-source ~/env36/bin/activate.fish

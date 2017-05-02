@@ -53,7 +53,7 @@
   :group 'processes
   :prefix 'quickrun)
 
-(defcustom quickrun-timeout-seconds 10
+(defcustom quickrun-timeout-seconds 60
   "Timeout seconds for running too long process"
   :type 'integer)
 
