@@ -1,6 +1,12 @@
-;; -*- emacs-lisp -*- <17/03/24 18:58:10 /Users/kota/.emacs.d/tramp>
+;; -*- emacs-lisp -*- <17/06/06 11:52:18 /Users/kota/.emacs.d/tramp>
 ;; Tramp connection history.  Don't change this file.
 ;; You can delete it, forcing Tramp to reapply the checks.
 
 ((["ftp" "todopages.html.xdomain.jp" "sv1.html.xdomain.ne.jp" nil nil]
-  ("started" t)))
+  ("started" t))
+ (["ssh" "ec2-user" "54.172.47.224#20" nil nil]
+  nil)
+ (["ssh" "ec2-user" "54.172.47.224#6379" nil nil]
+  nil)
+ (["ssh" "ec2-user" "54.172.47.224" nil nil]
+  nil))

@@ -1,19 +1,18 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; init.el
 ;; Emacs設定用ファイル
 ;; timestamp:2017-03-19
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar tagname "")
+;; 削除をC-hに変更
+(global-set-key "\C-h" 'delete-backward-char)
 ;; ~/emacs.d/elisp　ディレクトリをロードパスに追加する
 (add-to-list 'load-path "~/.emacs.d/elisp")
-
-;; 削除をC-hに変更
-(keyboard-translate ?\C-h ?\C-?)
 ;; ロックファイルを作成しない
 (setq create-lockfiles nil)
 ;; カラム番号を表示
 (column-number-mode t)
+
 ;; ファイルサイズを表示
 (size-indication-mode t)
 ;; バッテリー残量を表示
@@ -296,3 +295,20 @@
 (require 'color-theme)
 (color-theme-initialize)
 (load-theme 'calm-forest t)
+
+;; バイトコンパイル問題解決
+;; (require 'auto-async-byte-compile)
+;; (setq auto-async-byte-compile-exclude-files-regexp "/junk/")
+;; (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
+
+;;emacssclientサーバー立ち上げ
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
+(byte-recompile-directory "~/.emacs.d/elisp" 0)
+
+;;ssh先に接続
+(require 'tramp)
+(setq tramp-default-method "ssh")
+(put 'set-goal-column 'disabled nil)
