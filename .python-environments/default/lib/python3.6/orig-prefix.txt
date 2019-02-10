@@ -1,1 +1,0 @@
-/usr/local/bin/../Cellar/python3/3.6.0_1/bin/../Frameworks/Python.framework/Versions/3.6
